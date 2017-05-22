@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-//Presentational component
+//Presentational component - Pure component
 class BankApp extends Component {
     handleDeposit() {
         this.props.onDeposit(this.refs.amount.value);

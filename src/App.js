@@ -1,35 +1,28 @@
-import React, {Component} from 'react';
-import BankStore from './BankStore';
-import BankApp from './BankApp';
-import BankActionCreators from './BankActionCreators';
-import './App.css';
-
-class App extends Component {
-    /*constructor(...args) {
-     super(...args);
-     BankStore.dispatch({type: constants.CREATE_ACCOUNT});
-     this.state = {balance: BankStore.getState().balance};
-     }*/
-
-    componentDidMount() {
-        this.unsubscribe = BankStore.subscribe(() => {
-            this.setState({balance: BankStore.getState().balance});
-        });
-    }
-
-    componentWillUnmount() {
-        this.unsubscribe();
-    }
-
-    render() {
-        return (
-            <div className="App">
-                <BankApp balance={BankStore.getState().balance}
-                         onDeposit={amount => BankStore.dispatch(BankActionCreators.depositIntoAccount(amount))}
-                         onWithdraw={amount => BankStore.dispatch(BankActionCreators.withDrawFromAccount(amount))}/>
-            </div>
-        );
+import React, {Component} from "react";
+import {connect} from 'react-redux';
+import BankApp from "./BankApp";
+import BankActionCreators from "./BankActionCreators";
+import "./App.css";
+//This component is the one that talks with the store
+//It is a container component. It has two main responsibilities:
+//Map state to props
+//Map dispatch to props
+const mapStateToProps = (state) => {
+    return {
+        balance: state.balance
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onDeposit: (amount) => dispatch(BankActionCreators.depositIntoAccount(amount)),
+        onWithdraw: (amount) => dispatch(BankActionCreators.withDrawFromAccount(amount))
+    }
+}
+
+const App = connect(mapStateToProps, mapDispatchToProps)(BankApp);
+
 export default App;
+
+
+

@@ -7,8 +7,6 @@ const initialState =
 
 const BankReducer = (state = initialState, action) =>
 {
-    console.log(action);
-
     switch(action.type)
     {
         /*case constants.CREATE_ACCOUNT:
